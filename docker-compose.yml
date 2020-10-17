@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  divarsoy-rss:
+    container_name: divarsoy-rss
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: divarsoy-rss
+    volumes:
+      - ./project:/var/www
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PHP_IDE_CONFIG: serverName=docker
+  divarsoy-rss-mysql:
+    image: mysql:8.0.20
+    container_name: divarsoy-rss-mysql
+    restart: unless-stopped
+    command: mysqld --default-authentication-plugin=mysql_native_password --sql_mode=""
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/data:/var/lib/mysql
+    environment:
+      TZ: Europe/London
+      MYSQL_ROOT_PASSWORD: 'WuwerYtv7EV226kvqSX7'
+      MYSQL_DATABASE: divarsoyrss
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: 'p3PA6343aBHZDjXv76du'
+  divarsoy-rss-mailhog:
+    image: mailhog/mailhog:v1.0.0
+    container_name: divarsoy-rss-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
