@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/feeds', 'RSSController@index')->name('rss.index');
+Route::get('/feeds{id}', 'RSSController@show')->name('rss.show');
+Route::post('/rss', 'RSSController@create')->name('rss.create');
+
